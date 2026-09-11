@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors'
 import 'dotenv/config'
+import pool from "./data/db.js"
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,19 +15,16 @@ app.get('/', (req, res) => {
   res.send('Servidor disponible 🟢');
 });
 
-app.get('/productos', (req, res) => {
-    res.json([
-        {
-            id: 1,
-            nombre: "Producto #1",
-            precio: 1000
-        },
-        {
-            id: 2,
-            nombre: "Producto #2",
-            precio: 2000
-        }
-    ])
+app.get('/productos', async (req, res) => {
+
+    try {
+        const datos = await pool.execute(`SELECT * FROM productos`)
+        res.json(datos)
+    } catch (error) {
+        res.json({error: error.message})
+    }
+
+  
 })
 
 app.listen(port, () => {
