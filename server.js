@@ -1,9 +1,13 @@
 import express from 'express';
 import cors from 'cors'
+import 'dotenv/config'
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors())
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+}))
 
 app.get('/', (req, res) => {
   res.send('Servidor disponible 🟢');
