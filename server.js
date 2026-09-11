@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 app.get('/productos', async (req, res) => {
 
     try {
-        const datos = await pool.execute(`SELECT * FROM productos`)
+        const [datos] = await pool.execute(`SELECT * FROM productos`)
         res.json(datos)
     } catch (error) {
         res.json({error: error.message})
